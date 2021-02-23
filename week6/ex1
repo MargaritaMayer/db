@@ -1,5 +1,18 @@
-Explore the generated data and try to query it using Python or pgAdmin.. For Example, use SELECT
-statement:
+BEFORE TREE AND HASH:
 Explain ANALYZE SELECT * FROM public.customer
-cost=4087
+Seq Scan on customer  (cost=0.00..4087.00 rows=100000 width=215)
 
+Explain ANALYZE SELECT * FROM public.customer where age=3
+Seq Scan on customer  (cost=0.00..4337.00 rows=982 width=215)
+
+Explain SELECT * FROM public.customer where Name = 'Margarita Mayer'
+Seq Scan on customer  (cost=0.00..4337.00 rows=2 width=215)
+
+
+AFTER BTREE:
+Explain ANALYZE SELECT * FROM public.customer where Name = 'Margarita Mayer'
+Bitmap Heap Scan on customer  (cost=4.43..12.31 rows=2 width=215)
+
+AFTER HASH:
+Explain ANALYZE SELECT * FROM public.customer where age=3
+Bitmap Heap Scan on customer  (cost=20.03..2090.95 rows=982 width=215)
