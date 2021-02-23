@@ -1,1 +1,5 @@
+Explore the generated data and try to query it using Python or pgAdmin.. For Example, use SELECT
+statement:
+Explain ANALYZE SELECT * FROM public.customer
+cost=4087
 
