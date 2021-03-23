@@ -1,1 +1,57 @@
+MARGARITA MAYER, BS19-01
+PART 1.
 
+BEGIN;
+SAVEPOINT T1;
+
+UPDATE public."Accounts"
+SET "Credit" = CASE WHEN "ID"=1 THEN "Credit"-500 
+WHEN "ID"=3 THEN "Credit"+500 
+ELSE "Credit" END;
+SAVEPOINT T2;
+
+UPDATE public."Accounts"
+SET "Credit" = CASE WHEN "ID"=2 THEN "Credit"-700 
+WHEN "ID"=1 THEN "Credit"+700 
+ELSE "Credit" END;
+SAVEPOINT T3;
+UPDATE public."Accounts"
+SET "Credit" = CASE WHEN "ID"=2 THEN "Credit"-100 
+WHEN "ID"=3 THEN "Credit"+100 
+ELSE "Credit" END;
+END;
+SELECT * FROM public."Accounts";
+
+
+
+PART 2.
+BEGIN;
+UPDATE public."Accounts"
+SET "BankName" = CASE WHEN "ID"=2 THEN 'Tinkoff' ELSE 'SpearBank' END;
+
+INSERT INTO public."Accounts"(
+ "ID", "Credit", "Name", "BankName")
+ VALUES (4, 0, 'Transactions', 'Bank');
+ 
+ BEGIN;
+SAVEPOINT T1;
+UPDATE public."Accounts"
+SET "Credit" = CASE WHEN "ID"=1 THEN "Credit"-500 
+WHEN "ID"=3 THEN "Credit"+500 
+ELSE "Credit" END;
+SAVEPOINT T2;
+
+UPDATE public."Accounts"
+SET "Credit" = CASE WHEN "ID"=2 THEN "Credit"-730 
+WHEN "ID"=1 THEN "Credit"+700 
+WHEN "ID"=4 THEN "Credit"+30 
+ELSE "Credit" END;
+SAVEPOINT T3;
+
+UPDATE public."Accounts"
+SET "Credit" = CASE WHEN "ID"=2 THEN "Credit"-130 
+WHEN "ID"=3 THEN "Credit"+100 
+WHEN "ID"=4 THEN "Credit"+30 
+ELSE "Credit" END;
+END;
+SELECT * FROM public."Accounts";
