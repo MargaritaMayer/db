@@ -1,0 +1,77 @@
+create table Person(
+	 p_name text not null unique,
+	 birthday date not null unique,
+	 actor boolean,
+	 director boolean,
+	 primary key(p_name, birthday)
+);
+
+create table Company(
+	 c_name text not null unique,
+	 address text not null unique,
+	 primary key(c_name, address)
+);
+
+
+create table Movie(
+	 title text not null unique,
+	 m_year date not null unique,
+	 m_length smallint,
+	 plot text,
+	 genres text,
+	 primary key(title, m_year)
+);
+
+
+create table Appears(
+	p_name text not null unique,
+	birthday date not null unique,
+	title text not null unique,
+	m_year date not null unique,
+	m_role text not null,
+	quotes text,
+	primary key(title, m_year, p_name, birthday),
+	foreign key(p_name) references Person(p_name),
+	foreign key(birthday) references Person(birthday),
+	foreign key(title) references Movie(title),
+	foreign key(m_year) references Movie(m_year)
+);
+
+
+create table Directs(
+	p_name text not null unique,
+	birthday date not null unique,
+	title text not null unique,
+	m_year date not null unique,
+	primary key(title, m_year, p_name, birthday),
+	foreign key(p_name) references Person(p_name),
+	foreign key(birthday) references Person(birthday),
+	foreign key(title) references Movie(title),
+	foreign key(m_year) references Movie(m_year)
+);
+	
+	
+create table Produces(
+	c_name text not null unique,
+	address text not null unique,
+	title text not null unique,
+	m_year date not null unique,
+	primary key(c_name, address, title, m_year),
+	foreign key(c_name) references Company(c_name),
+	foreign key(address) references Company(address),
+	foreign key(title) references Movie(title),
+	foreign key(m_year) references Movie(m_year)
+);
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
