@@ -1,0 +1,36 @@
+-- Query 1
+SELECT title 
+FROM
+(
+	SELECT title, rating, film_id, name
+	FROM 
+	(
+		SELECT title, rating, category_id, f.film_id 
+		FROM film f, film_category fc 
+		WHERE f.film_id = fc.film_id
+	)
+	AS title_category_id,
+	category
+	WHERE title_category_id.category_id = category.category_id
+) 
+AS film_rating_category
+WHERE (film_rating_category.rating = 'R' OR film_rating_category.rating = 'PG-13')
+AND (film_rating_category.name = 'Horror' OR film_rating_category.name = 'Sci-Fi')
+AND film_id NOT IN 
+(
+	SELECT film_id 
+	FROM inventory i, rental r
+	WHERE i.inventory_id = r.inventory_id
+);
+
+-- Query 2
+SELECT store_id, sum(amount) 
+FROM payment, customer
+WHERE payment.customer_id = customer.customer_id
+AND
+payment.payment_date >= 
+(
+	SELECT max(payment_date) - make_interval(months => 1)
+	FROM payment
+)
+GROUP BY store_id;
